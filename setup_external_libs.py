@@ -3,8 +3,9 @@ import zipfile
 import eden.setup
 from eden.utils import utils
 
-                
+
 eden.setup.set_external_repos_root("external")
+
 
 
 # neural-style
@@ -33,14 +34,15 @@ if not os.path.exists(dest_path):
 
 # setup stylegan
 file_id = '1Kg7yqWSgoXN_mvHypX_fXt2GjrJZ_CZv'
-stylegan = eden.setup.get_external_repo_dir("stylegan")
+stylegan = eden.setup.get_external_repo_dir("stylegan-encoder")
 ckpt_folder = os.path.join(stylegan, 'checkpoints')
 dest_folder = os.path.join(ckpt_folder, 'wikiarts')
-dest_path = os.path.join(dest_folder, 'network-final-wikiarts.pkl')
+dest_path_model = os.path.join(dest_folder, 'network-final-wikiarts.pkl')
+#dest_path_encoder = os.path.join(dest_folder, 'network-final-wikiarts.pkl')
 if not os.path.exists(dest_path):
     utils.try_make_folder(ckpt_folder)
     utils.try_make_folder(dest_folder)
-    utils.download_file_from_google_drive(file_id, dest_path)
+    utils.download_file_from_google_drive(file_id, dest_path_model)
     
 
 # setup spade
@@ -75,3 +77,4 @@ if not os.path.isdir(os.path.join(dest_folder, 'ckpt')):
     zipf.extractall(dest_folder)
     zipf.close()
     os.system('rm %s' % dest_path)
+

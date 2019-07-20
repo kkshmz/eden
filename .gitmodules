@@ -13,3 +13,9 @@
 [submodule "external/deeplab-pytorch"]
 	path = external/deeplab-pytorch
 	url = https://github.com/genekogan/deeplab-pytorch
+[submodule "external/neural-style-tiled"]
+	path = external/neural-style-tiled
+	url = https://github.com/VaKons/neural-style
+[submodule "external/stylegan-encoder"]
+	path = external/stylegan-encoder
+	url = https://www.github.com/pbaylies/stylegan-encoder
