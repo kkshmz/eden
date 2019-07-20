@@ -101,7 +101,7 @@ class ImageLoader:
             img_data = processing.cv2pil(img)
         else:
             path = self.images[index]['path']
-            img_data = Image.open(img_path).convert("RGB")
+            img_data = Image.open(path).convert("RGB")
         img = {'path': path, 'data': img_data} 
         return img
     

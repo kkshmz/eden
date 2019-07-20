@@ -69,8 +69,6 @@ def draw_mask(mask, flatten_blend=False, draw_rgb=False, animate=False, color_la
         time.sleep(0.1)
         clear_output()
 
-
-
 def mask_arcs(h, w, n, ctr_y, ctr_x, rad, period, t, blend=0.0, inwards=False, reverse=False):
     radius = rad * n
     mask = np.zeros((h, w, n))

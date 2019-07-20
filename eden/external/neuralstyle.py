@@ -8,6 +8,8 @@ from eden.utils import dataset
 
 def run(params, delete_temp_files=True):
     neural_style = eden.setup.get_external_repo_dir('neural-style')
+    neural_style_tiled = eden.setup.get_external_repo_dir('neural-style-tiled')
+    tiled = params['tiled'] if 'tiled' in params else False
     content = params['content'] if 'content' in params else '%s/images/dog.jpg' % neural_style
     style = params['style'] if 'style' in params else '%s/images/starrynight.jpg' % neural_style
     output = params['output'] if 'output' in params else None
@@ -17,11 +19,16 @@ def run(params, delete_temp_files=True):
     style_weight = params['style_weight'] if 'style_weight' in params else 100
     tv_weight = params['tv_weight'] if 'tv_weight' in params else 0.001
     style_scale = params['style_scale'] if 'style_scale' in params else 1.0
+    normalize_gradients = params['normalize_gradients'] if 'normalize_gradients' in params else False
     image_size = params['image_size'] if 'image_size' in params else 512
     num_iterations = params['num_iterations'] if 'num_iterations' in params else 500
     multi_gpu = params['multi_gpu'] if 'multi_gpu' in params else False
     init_image_str = (' -init_image %s' % init) if (init is not None and init_type=='image') else ''
-
+    overlap_times = params['overlap_times'] if 'overlap_times' in params else 2
+    scale_down = params['scale_down'] if 'scale_down' in params else 1.0
+    scale_up = params['scale_up'] if 'scale_up' in params else 1.0
+    scale_steps = params['scale_steps'] if 'scale_steps' in params else 1
+    
     f_content = tempfile.NamedTemporaryFile(suffix='.png')
     f_style = tempfile.NamedTemporaryFile(suffix='.png')
     f_output = tempfile.NamedTemporaryFile(suffix='.png')  
@@ -42,7 +49,7 @@ def run(params, delete_temp_files=True):
     if output is None:
         output = f_output.name
             
-    cmd  = 'th %s/neural_style.lua' % neural_style
+    cmd  = 'th %s/neural_style.lua' % (neural_style_tiled if tiled else neural_style)
     cmd += ' -proto_file %s/models/VGG_ILSVRC_19_layers_deploy.prototxt' % neural_style
     cmd += ' -model_file %s/models/VGG_ILSVRC_19_layers.caffemodel' % neural_style
     cmd += ' -backend cudnn %s' % ('-cudnn_autotune' if not multi_gpu else '')
@@ -56,10 +63,18 @@ def run(params, delete_temp_files=True):
     cmd += ' -style_weight %0.4f' % style_weight
     cmd += ' -tv_weight %0.4f' % tv_weight
     cmd += ' -style_scale %0.4f' % style_scale
+    cmd += '%s' % (' -normalize_gradients' if normalize_gradients else '')
     cmd += ' -save_iter 0'
-    cmd += ' -gpu %s -multigpu_strategy 3,6,12  ' % ('0' if not multi_gpu else '0,1,2,3')
+    cmd += ' -gpu %s -multigpu_strategy 3,6,12' % ('0' if not multi_gpu else '0,1,2,3')
     cmd += ' -lbfgs_num_correction %d' % (0 if not multi_gpu else 5)
-    
+
+    if tiled:
+        cmd += ' -overlap_times %d ' % overlap_times
+        cmd += ' -scale_down %0.4f ' % scale_down
+        cmd += ' -scale_up %0.4f ' % scale_up
+        cmd += ' -scale_steps %d ' % scale_steps
+        #cmd += ' -expand_small %d ' % overlap_times
+
     print(cmd)
     os.system(cmd)
     output_image = imageio.imread(output)
@@ -72,7 +87,7 @@ def run(params, delete_temp_files=True):
     return output_image
     
 
-    
+# todo: how does this interact with neural-style-tiled
 def run_multires(params):
     neural_style = abraham.setup.get_external_repo_dir('neural-style')
     content = params['content'] if 'content' in params else '%s/images/dog.jpg' % neural_style
@@ -84,6 +99,7 @@ def run_multires(params):
     style_weight = params['style_weight'] if 'style_weight' in params else 100
     tv_weight = params['tv_weight'] if 'tv_weight' in params else 0.001
     style_scale = params['style_scale'] if 'style_scale' in params else 1.0
+    normalize_gradients = params['normalize_gradients'] if 'normalize_gradients' in params else False
     
     f_content = tempfile.NamedTemporaryFile(suffix='.png')
     f_style = tempfile.NamedTemporaryFile(suffix='.png')

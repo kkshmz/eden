@@ -14,7 +14,7 @@ import torch.nn.functional as F
 import yaml
 import random
 import glob
-from tqdm import tqdm
+from tqdm import tqdm_notebook as tqdm
 from addict import Dict
 
 
