@@ -21,3 +21,4 @@ dill
 requests
 pydensecrf
 tqdm
+ipywidgets
