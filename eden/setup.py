@@ -34,5 +34,5 @@ def get_external_repo_dir(repo):
         
 
 # turn off warnings/deprecation notifications
-import tensorflow
-tensorflow.logging.set_verbosity(tensorflow.logging.ERROR)
+import tensorflow as tf
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)

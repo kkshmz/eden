@@ -5,13 +5,14 @@ from IPython.display import display
 
 
 def show(imgs_in):
-    if not isinstance(imgs_in, list):
-        imgs_in = [imgs_in]
+    imgs_in = np.array(imgs_in)
+    if len(imgs_in.shape) < 4:
+        imgs_in = np.expand_dims(imgs_in, axis=0)
     for img_in in imgs_in:
         img_pil = Image.fromarray(np.array(img_in))
         display(img_pil)
 
-    
+        
 def save(img_in, filename, fmt='PNG'):
     img_np = np.clip(np.array(img_in), 0, 255).astype(np.uint8)
     img_pil = Image.fromarray(img_np)

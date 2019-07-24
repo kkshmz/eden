@@ -2,6 +2,7 @@ Pillow
 scipy==1.0.0
 scikit-learn
 scikit-image
+dill
 numpy
 opencv-python
 tensorflow-gpu==1.14.0

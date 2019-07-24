@@ -35,6 +35,7 @@ tensorflow-gpu = "==1.14.0"
 keras = "*"
 numpy = "==1.16.4"
 ipywidgets = "*"
+skimage = "*"
 
 [requires]
 python_version = "3.6"

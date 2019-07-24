@@ -29,6 +29,14 @@ To install, command your terminal the following:
     cd eden
     pip install -r requirements.txt
     
+
+Also useful:
+    
+    sudo apt install nodejs
+    sudo apt install
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager
+
+    
 A `Pipfile` is also provided if you wish to use [pipenv](https://github.com/pypa/pipenv).
 
 The `external` folder contains submodules of dependencies. These can be used directly according to their own instructions, as well as through wrappers contained in the `eden` library. 
