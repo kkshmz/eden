@@ -77,3 +77,11 @@ def labelmap_as_image(labelmap, label=None):
     labelmap = labelmap.astype(np.uint8)
     return labelmap
 
+
+def mask_image(img, labelmap, label=None):
+    labels = np.unique(labelmap) if label is None else [label]
+    h, w = np.array(img).shape[0:2]
+    labelmap = cv2.resize(labelmap.astype('uint8'), (w, h), interpolation=cv2.INTER_NEAREST)
+    labelmap = np.expand_dims(labelmap, axis=2)
+    mask_imgs = [np.multiply(img, labelmap==label) for label in labels]
+    return mask_imgs[0] if len(labels)==1 else mask_imgs

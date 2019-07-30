@@ -19,3 +19,6 @@
 [submodule "external/stylegan-encoder"]
 	path = external/stylegan-encoder
 	url = https://www.github.com/pbaylies/stylegan-encoder
+[submodule "external/neural-synth"]
+	path = external/neural-synth
+	url = https://github.com/genekogan/neural-synth

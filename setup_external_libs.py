@@ -34,7 +34,7 @@ if not os.path.exists(dest_path):
 
 # setup stylegan
 file_id = '1Kg7yqWSgoXN_mvHypX_fXt2GjrJZ_CZv'
-stylegan = eden.setup.get_external_repo_dir("stylegan-encoder")
+stylegan = eden.setup.get_external_repo_dir("stylegan")
 ckpt_folder = os.path.join(stylegan, 'checkpoints')
 dest_folder = os.path.join(ckpt_folder, 'wikiarts')
 dest_path_model = os.path.join(dest_folder, 'network-final-wikiarts.pkl')
@@ -66,15 +66,31 @@ for file_id, file_name in ckpt_files:
 
 
 # setup densecap-tensorflow
-file_id = '1yoJGXXpeSpQbU-6WpLsMXFLIka7xpTAy'
-densecaptensorflow = eden.setup.get_external_repo_dir("densecap-tensorflow")
-dest_folder = os.path.join(densecaptensorflow, 'output')
-dest_path = os.path.join(dest_folder, 'ckpt.zip')
-if not os.path.isdir(os.path.join(dest_folder, 'ckpt')):
-    utils.try_make_folder(dest_folder)
-    utils.download_file_from_google_drive(file_id, dest_path)
-    zipf = zipfile.ZipFile(dest_path, 'r')
-    zipf.extractall(dest_folder)
-    zipf.close()
-    os.system('rm %s' % dest_path)
+# file_id = '1yoJGXXpeSpQbU-6WpLsMXFLIka7xpTAy'
+# densecaptensorflow = eden.setup.get_external_repo_dir("densecap-tensorflow")
+# dest_folder = os.path.join(densecaptensorflow, 'output')
+# dest_path = os.path.join(dest_folder, 'ckpt.zip')
+# if not os.path.isdir(os.path.join(dest_folder, 'ckpt')):
+#     utils.try_make_folder(dest_folder)
+#     utils.download_file_from_google_drive(file_id, dest_path)
+#     zipf = zipfile.ZipFile(dest_path, 'r')
+#     zipf.extractall(dest_folder)
+#     zipf.close()
+#     os.system('rm %s' % dest_path)
 
+
+    
+# setup neural-synth
+neuralsynth = eden.setup.get_external_repo_dir("neural-synth")
+data_folder = os.path.join(neuralsynth, 'data')
+dest_path = os.path.join(data_folder, "inception5h.zip")
+dest_folder = os.path.join(data_folder, 'inception5h')
+if not os.path.isdir(dest_folder):
+    utils.try_make_folder(data_folder)
+    utils.try_make_folder(dest_folder)
+    cmd = 'wget -P %s https://storage.googleapis.com/download.tensorflow.org/models/inception5h.zip' % data_folder
+    os.system(cmd)
+    cmd = 'unzip %s -d %s' % (dest_path, dest_folder)
+    os.system(cmd)
+    cmd = 'rm %s ' % dest_path
+    os.system(cmd)

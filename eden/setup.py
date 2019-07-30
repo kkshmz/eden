@@ -11,6 +11,7 @@ def set_external_repos_root(path):
     set_external_repo_dir('deeplab-pytorch', '%s/deeplab-pytorch' % __EXTERNAL_REPOS_ROOT__, overwrite=False)
     set_external_repo_dir('spade', '%s/SPADE' % __EXTERNAL_REPOS_ROOT__, overwrite=False)
     set_external_repo_dir('stylegan', '%s/stylegan-encoder' % __EXTERNAL_REPOS_ROOT__, overwrite=False)
+    set_external_repo_dir('neural-synth', '%s/neural-synth' % __EXTERNAL_REPOS_ROOT__, overwrite=False)
     
     
 def get_external_repos_root():
