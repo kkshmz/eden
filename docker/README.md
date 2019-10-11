@@ -1,0 +1,1 @@
+required using [nvidia-docker](https://github.com/NVIDIA/nvidia-docker)
